@@ -1,2 +1,19 @@
 server:
   port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/db
+    username: root
+    password: root
+    drive-class-name: com.mysql.jdbc.Driver
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+
