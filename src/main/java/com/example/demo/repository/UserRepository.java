@@ -2,6 +2,8 @@ package com.example.demo.repository;
 
 import com.example.demo.entity.user.UserEntity;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -13,6 +15,10 @@ import java.util.List;
 //anotation
 //@RepositoryDefinition(domainClass = UserEntity.class, idClass = Long.class)
 public interface UserRepository extends JpaRepository<UserEntity, Long>, JpaSpecificationExecutor<UserEntity> {
+    //pageable
+    Page<UserEntity> findByUserNameContaining(String name, Pageable pageable);
+    Page<UserEntity> findByUserName(String name, Pageable pageable);
+
 
     //findByUserNameAndUserEmail
     //UserNameAndUserEmail
@@ -22,7 +28,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>, JpaSpec
     UserEntity findByUserNameAndUserEmail(String userName, String userEmail);
 
     //username
-    UserEntity findByUserName(String userName);
+//    UserEntity findByUserName(String userName);
 
     /**
      * WHERE userName LIKE %?
@@ -38,6 +44,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>, JpaSpec
      * WHERE id < 1
      */
     List<UserEntity> findByIdLessThan(Long id);
+
 
     //RAW JPQL
     @Query("SELECT u FROM UserEntity u WHERE u.id = (SELECT MAX(p.id) FROM UserEntity p)")
@@ -56,4 +63,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>, JpaSpec
     //native query
     @Query(value = "SELECT COUNT(id) FROM java_user_01", nativeQuery = true)
     long getTotalUser();
+
 }
